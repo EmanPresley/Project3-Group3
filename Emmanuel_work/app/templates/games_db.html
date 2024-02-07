@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Games DataBase Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lumen/bootstrap.min.css" integrity="sha384-GzaBcW6yPIfhF+6VpKMjxbTx6tvR/yRd/yJub90CqoIn2Tz4rRXlSpTFYMKHCifX" crossorigin="anonymous">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+
+    <!-- Leaflet JavaScript code -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+    <!-- D3 library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Our CSS -->
+    <link rel="stylesheet" type="text/css" href="static\css\game_style.css">
+
+    <!-- Footer CSS -->
+    <style type ="text/css" >
+      .footer{ 
+          position: fixed;     
+          text-align: center;    
+          bottom: 0px; 
+          width: 100%;
+      }  
+   </style>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="nav-link home-link" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/index"> European Studios Map</a>
+            </li>            
+            <li class="nav-item">
+              <a class="nav-link" href="/games_db">Leaderboard Visualizations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about_us">About Us</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12 text-center">
+              <!-- This is where the dropdowns and buttons will live -->
+              <h1 style="color: white;">Welcome to our Gaming Leaderboard!</h1>
+              <h3 style="color: white;">Here you can view different points of data regarding popularity among video games!</h3>
+              <div id="filters">
+                <h4 style="color: white;">Select Filter</h4>
+                  <select id="dropdown">
+                      <option value="genre" selected>Genre</option>
+                      <option value="rating">Rating</option>
+                      <option value="plays">Plays</option>
+
+                  </select>
+              </div>
+          </div>
+      </div>
+      <hr>
+        <div class="row">
+          <!-- This is where the plotly plots will go -->
+          <div class="col-md-6">
+            <div id="bar1"></div>
+          </div>
+          <div class="col-md-6">
+              <div id="bar2"></div>
+          </div>
+          <!-- This is where descriptions for the plot results will go-->
+          <div class="container">
+            <div id="bar2"></div>
+            <div class="paragraph">
+              <p id="genre-paragraph" class="category-paragraph">The Adventure genre is the most common genre with a total of 727 
+                titles listed as an adventure game! This would seem like a landslide of popularity compared to other genres, but 
+                keep in mind that often times other genres can be considered a sub category to adventures such as an Adventure RPG.
+                The same can be said of the opposite end of the spectrum with the Strategy genre only containing 1 title. Many 
+                strategy games can be a combination of MOBAs(Multiplayer Olnline Battle Area) and Real Time Strategies, bringing
+                true number of strategy games closer to 3 or 4, and possibly higher if they we also considered an indie title!</p>
+              <p id="rating-paragraph" class="category-paragraph">Elden Ring: Shadow of the Erdtree took the top spot as having a
+                rating of 4.8 out of 5. But before rushing off to buy it on steam, you may wish to proceed to the "Plays" category 
+                of this database. SPOILER ALERT: It's not out yet. But the rest of the top 10 are all fair game (get it?), with Sekiro
+                at #5 receiving it's own Game of the Year Edition! However, if you stumble upon any of the lower ranked titles on our 
+                list, you may want to keep searching for your next pixelated adventure. While the man of steel may be able battle the
+                likes of Lex Luthor, he just couldn't beat the critics out of his horrible 0.7 rating with Superman:The New Superman 
+                Adventures coming in dead last on our list!
+              </p>
+              <p id="plays-paragraph" class="category-paragraph">At the top of our most played titles list sits Minecraft with 33,000 plays!
+                From battling creepers, hunger, and griefers, who would've known that such a simple concept would take the gaming world by 
+                storm and keep their players coming back with regular content updates. One can't help but wonder how long it will be before 
+                we will be seeing a machine gun wielding Steve in Fortnite? Looking at you Epic Games!! On the other end of the list we have
+                quite the anomaly, Elden Ring: Shadow of the Erdtree. As you may recall, this was a highly rated title with a 4.8, yet it only
+                yet it only has 1 recorded player. And the title isn't even releashed yet. The first thing to recognize is that many publishers
+                prerelease copies of upcoming video games for testing to get an idea of what to expect from potential buyers. This serves a 
+                multitude of purposes such as finding bugs, guaging player reactions to features, and advertising. Thus, a video game that 
+                hasn't been released yet will sometimes report to have very few players, yet a high rating if the game is good enough. And
+                as for only 1 player? Well, that was the result of a dataset with some missing information that wasn't discovered until the end of
+                 a very lengthy data cleaning, javascript writing, and website design. :( </p>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="footer">Data source:<a href="https://www.kaggle.com/datasets/arnabchaki/popular-video-games-1980-2023">Popular Video Games 1980 - 2023</a></div>
+
+  <!-- Our JavaScript -->
+  <script type="text/javascript" src="static/js/game_app.js"></script>
+  </body>
+</html>
